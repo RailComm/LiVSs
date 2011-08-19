@@ -1,0 +1,17 @@
+LiVSs Installation requires Python and two packages for Microsoft Excel
+File usage. Otherwise, LiVSs is fairly compact in its requirements.
+
+Dependencies:
+	Python 3.2:   http://www.python.org/download/releases/3.2/
+	xlwt3:        http://pypi.python.org/pypi/xlwt3
+	xlrd3:        http://pypi.python.org/pypi/xlrd3
+	
+  Note: Both xlwt3 and xlrd3 have been included in this repo under
+  src/xlutils. They can be ignored if you have the packages already
+  installed.
+	
+Optional Dependancies:
+	CX_Freeze:    http://cx-freeze.sourceforge.net/
+	
+  Note: You only need CX_Freeze if you want an EXE of LiVSs to put on
+  your system path. Otherwise you can ignore this dependency.

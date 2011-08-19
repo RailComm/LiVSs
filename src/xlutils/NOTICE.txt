@@ -1,0 +1,10 @@
+This library consists of two python modules: xlrd3 and xlwt3
+
+They are python 3.* clones of two packages used for reading and writing to MS 
+excel files (respectively). The reason they have been included as a separate 
+directory is so that users wont have to go scouring the internet for them, and 
+wont have to download more packages to use it. 
+
+I do not claim copyright to these sub-directories, nor does RailComm LLC. They 
+utilize a BSD-License as well, and are merely included for usefulness and can 
+be excluded from the download.

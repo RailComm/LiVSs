@@ -1,0 +1,91 @@
+            LiVSs: L10n/i18n of Visual-Studio Systems/Strings
+
+Author: Alexander Dean <dstar@csh.rit.edu>
+Copyright (c) 2011, RailComm LLC
+All rights reserved. Redistribution and use in source and binary forms, with 
+or without modification are permitted provided that the conditions are met 
+under the Modified BSD License.
+
+Description:
+  LiVSs is an attempt at a program that will make localization of a Visual 
+Studio C++ project easier, and meanwhile back up all of your localized data. 
+This program was built with a particular piece of software in mind, and thus
+might not work for all projects. If there are problem, please feel free to 
+contact the author/maintainer Alexander Dean.
+
+Current Features:
+* Parsing resource files to get all translatable strings
+    * Can grab String-Tables, Menus trees, and dialogs
+	* All strings pulled out can be compared and saved in a master file
+    * Master files can be used for translation purposes (a column per language)
+* Pushing updates from translator files back into resource files
+* Master files can be searched for inconsistancies and differences in 
+  translations.
+* Like strings can be merged in the master files to save on translation costs,
+  meanwhile all menu,dialog,and string table structures are maintained even
+  on a system level.
+* Save LiVSs queries for your entire code base as scripts that can be re-run.
+
+  More Information can be found in the doc/ directory. A how-to on LiVSs 
+scripting, a description of how LiVSs works, and a FAQ are all located there.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+CLI Documentation:
+
+Usage:
+          livss <subcommand> [options] [argument [argument ...]]
+
+Subcommands:
+
+   export: Export the content of a file into another, has several quick commands.
+   update: Update a file with the content of another. See info on utility files.
+   script: Run a LiVSs script via a file path.
+
+Options:
+    --debug     turn on debug logging.
+    --warnings  let warnings be logged too, errors are the only thing logged by default.
+    --logfile   set the path to the log file.
+    --save      Set the path to where the current query can be saved.
+	--time      LiVSs will report how long it took to run your query.
+   
+Help for each subcommand:
+         
+export subcommand:
+	-l, --level  set the level to build the export to (choices 'sys','lang','proj')
+	--mem        keep everything in memory. Only create the asked for choice. 
+	--keep       Use what was currently generated in the input path, and don't generate new files.
+	input        the file/directory that should be the target of an export
+	output       the file/directory that should be the location of said export
+	
+	Subcommands of Export:
+	  util           options for dumping utility files from the input target
+	  translator     options for dumping a translator file from the input target
+	  
+	  
+	  export util subcommand
+	  	-m, --menus    export the menus out of the target
+	  	-d, --dialogs  export the dialogs out of a target
+	  	-s, --strings  export the string tables out of a target
+	  	-a, --all      export all utils from a target (output must be a directory)
+	  
+	  export translator subcommand
+	  	-s, --sort       Sort the list of strings alphabetically
+        -c, --langcodes  Provide a list of language codes you want in the translator file
+        -p, --prune      Takes a path to a file that has a list of strings that shouldn't be in the translation file
+        -m, --mark       Highlights possible conflicts in the new translation file	
+        
+		
+update subcommand
+	-t, --translator   Location of translator file
+	-d, --dialogs      Location of dialogs file
+	-m, --menus        Location of menus file
+	-s, --strings      Location of string table file
+	-c, --langcode     Limit what language code in the input file gets updated, this can be a list.
+	-o, --outtype      What should we be updating? Must be one of ('sys','proj','rcs').
+	-n, --new          Generates new files for whater outtype is set to (cannot do rcs yet).
+	output             The directory/file to update
+	
+
+script subcommand
+    --dump   instead of reading in a file, all default configurations are dumped to the given file
+    input    takes a path to a file to run it. For more information on scripting, see the howto file.

@@ -1,0 +1,160 @@
+#
+# This file has a list of all possible variables for a LiVSs script, if you
+# add more please update this file as well!!
+#
+
+## I/O ##
+
+input  = ''                                                    (used in export)
+	This is a string that defines the input file or files that are the target 
+    of the function. When exporting, this is the directory/file looked at for 
+    strings to export. When updating, this is the directory/file stuff is 
+    pushed into. 
+
+output = ''                                        (used in export, and update)
+	This is the DIRECTORY of the output for a function. You can not adjust the
+	filenames that are pushed out (WE MAY CHANGE THAT IN THE FUTURE).
+
+
+## LOGGING ##
+
+logging = True/False                                                   (global)
+	Sets whether LiVSs should log anything. This effectively turns off 
+	errors/warnings/debug information with one variable.
+	
+log_format=''                                                          (global)
+	This is the format of the log, this is Python's logging format string, 
+	please go to: http://docs.python.org/py3k/library/logging.html
+	for more information on formatting logs.
+
+log_date_format=''                                                     (global)
+	This can be ignored if you change the log_format to not include the date 
+	but this is the format for the that is saved in the log. Please see the 
+	URL in the log_format description for more details.
+
+log_debug = True/False												   (global)
+	This turns on debug mode, it essentially is "verbose" mode. It displays all
+	messages from LiVSs.
+
+log_warnings = True/False											   (global)
+	This turns on viewing warnings. By default LiVSs hides all warning and
+	debug information, and it must be turned on by hand.
+
+log_path = ''                                                          (global)
+	This is the path to the location to save the log file. It can't be relative
+	and can't be a directory. It must be the full path (including file name).
+
+
+## UTILITY INFORMATION ##
+
+run_timer = True/False                                                 (global)
+	Keeps a timer running when running your command. It print the number of 
+	seconds it took after completing.
+
+
+## EXPORT SUBCOMMAND ##
+
+export_level = ('sys','proj','lang')                           (export command)
+	This is a string that must be one of the three choices. This defines the
+	level at which you are wanting to export the utility or translator files.
+	If this is 'sys', all language level, project level, AND system level files
+	are generated. (Even when exporting a system level translator).
+	
+export_mem = True/False                                        (export command)
+	This says that all exports are kept in memory and thus ONLY what is asked
+	for is saved to disk. For example if you want a system level translator, 
+	normally all utilities at every level are created along with it. But when
+	this option is True, only the translator file is created.
+
+export_existing = True/False                                   (export command)
+	This makes the requested file only with the utility files already generated
+	and saved to disk. No new files will be generated besides what is asked 
+	for.
+
+export_util_menus = True/False                                 (export command)
+	As part of the util sub-command, this will ask that all menus are exported
+	as the default value of this is set to False.
+
+export_util_dialogs = True/False                               (export command)
+	As part of the util sub-command, this will ask that all dialogs are 
+	exported as the default value of this is set to False.
+	
+export_util_strings = True/False                               (export command)
+	As part of the util sub-command, this will ask that all string tables are 
+	exported as the default value of this is set to False.
+	
+export_util_all = True/False                                   (export command)
+	As part of the util sub-command, this is the same as setting all of the 
+	above three variables to True (export_util_menus, export_util_dialogs, 
+	export_util_strings).
+
+export_translator_order = True/False                           (export command)
+	Orders the strings that are exported to the translator file alphabetically.
+	This is defaulted to False since it may add quite a bit more time to the 
+	export if there are a lot of strings.
+
+export_translator_langcodes = []                               (export command)
+	Translators can hold as many language codes as possible, however this may
+	not be the best option as we don't want to overload the translators. We
+	can specify what language codes go into the exported translator file. This
+	must be a list of strings of just the LICD language codes used by the
+	resource file, e.g.: export_translator_langcodes=['1033','2058'] 
+
+export_translator_prunepath = ''                               (export command)
+	Translator files are a compiled list of all strings that are in your 
+	system, so you are bound to end up with strings that you don't want to 
+	appear there. Well the path you give it is a file that has all of the 
+	strings that you don't want to show up (one per line).
+	
+export_translator_markconflicts = True/False                   (export command)
+	There are two main types of conflict that can occur in your translation 
+	file. The first is when your default language doesnt have a string for
+	a given id for another one. (This can be caused when someone doesn't use
+	the right ID when changing the other resource). These will be pruned and 
+	sent to the pruned section by default. The second type of conflict is when
+	there are two or more possible translations for a given string. This can be 
+	caused by inconsistencies when translating the secondary file (eg changing 
+	case or using the same ID for two purposes). These will be highlighted in 
+	red.
+
+
+## UPDATE SUBCOMMAND ##
+
+update_translator = ''                                         (update command)
+	This is the path to the translator file to use in updating the given file
+	or directory through the output variable. This path cannot be relative
+	and can't be a directory. It must include the file name.
+
+update_dialogs = ''                                            (update command)
+	This is the path to the dialogs file to use in updating the given file or
+	directory through the output variable. This path cannot be relative and
+	can't be a directory. It must include the file name.
+
+update_menus = ''                                              (update command)
+	This is the path to the menus file to use in updating the given file or
+	directory through the output variable. This path cannot be relative and
+	can't be a directory. It must include the file name.
+
+update_strings = ''                                            (update command)
+	This is the path to the string table file to use in updating the given file
+	or directory through the output variable. This path cannot be relative
+	and can't be a directory. It must include the file name.
+
+update_langcodes = []                                          (update command)
+	Translators and utility files can hold as many language codes as possible.
+	We can specify what language codes go into the old resource file. This must
+	be a list of strings of just the LICD language codes used by the resource 
+	files in the directory given via the output variable, 
+	e.g.: update_langcodes=['1033','2058'] 
+
+update_to = ('rcs','sys','proj')                               (update command)
+	Select what LiVSs should update in the output directory you gave. If
+	nothing is given it defaults to Sys level. For example, if rcs is given
+	and a directory is the output it will search for all files with a *.rc
+	extension and update them via the file that was given. If a file was 
+	given it will assume its a resource file and try to update it.
+	
+update_new = True/False                                        (update command)
+	This is the option to get LiVSs to generate brand new files rather than
+	try to update one. The `output` parameter must be a directory, and 
+	`update_to` must be set to either 'sys' or 'proj', it can't be 'rcs'. 

@@ -1,0 +1,93 @@
+= LiVSs Scripting =
+
+LiVSs allows you to run scripts so that you don't have to memorize all the
+rediculous commands that LiVSs allows. Normal scripts can be as simple as
+listing variables, but they can get as complicated as code as it is essentially
+python code that you are writing.
+
+
+-- How it works --
+
+LiVSs runs on python, which means it can dynamically load modules at 
+runtime. This means two things for you: You get to write your scripts as python,
+which means you get all the pleasure of writing code like you would normally 
+(class structures, functions, etc). Secondly, LiVSs can generate these
+scripts for you as it can write its own code!
+
+There is a catch though, you will need to define a function, that gets called
+when your script is imported. this function is called 'run()'.
+
+
+-- Writing a Script --
+
+I best learn from example, so I will give one and then break it down line by
+line for you:
+
+						-------file: tmp.hs
+						def run():                       # 1
+							export_util_all = True       # 2
+							log_path = "errors.log"      # 3
+							export_mem = True            # 4
+							export_level = "sys"         # 5
+							input = "C:/inputdir/."      # 6
+							output = "C:/outputdir/."    # 7
+							return locals()              # 8
+
+Ok, so if you are familiar with Python you will recognize this is just a 
+function called `run` which returns the result of some function called 
+`locals`. (LiVSs uses this to grab all of the local variables defined
+so that it can set its own to the values given). If you arn't familiar lets 
+look at it line by line:
+
+The First line is a function definition. Recognize that every subsequent
+line is indented the same distance after the run function. In Python 
+whitespace matters.
+
+Lines 2-7 are just setting a bunch of variables equal to something. This 
+is similar to a normal configuration file like *.cfg or *.ini. For a 
+detailed description of what each variable does, check out the VariableGuide
+in the doc directory.
+
+Line 8 is the most important line, what it does is wraps up all of the 
+variables in lines 2-7 and sends it to LiVSs.
+
+Warnings: make sure line 1 is always at the top of the file, make sure line 8 
+is always at the bottom, and make sure that everything after the first line
+is indented (and indented the same amount).
+
+
+-- What are all the variables? --
+
+That is a good question, there are a lot. For a full list, ask LiVSs to 
+generate a default script file. It will dump a HUGE list of all the possible
+configurations to adjust. the command to do this: 
+				  livss script --dump temp_script.hs 
+				
+				
+-- How can I use classes if I'm just setting variables? --
+ 
+Well you can make a class that you use repeatedly to grab information from
+somewhere else to pull the data needed, for example. You could make a file
+object and pass it to the log-object variable, so now the LiVSs system
+uses that instead!
+
+
+-- LiVSs can do this for me? --
+
+Yep, any command that LiVSs runs correctly can have the argument `--save`
+in front of it. This will save your command as a script to be run later.
+
+Usage:
+Say you write a command-line instruction that is fairly complicated, like to
+export all system level utility files in memory and save them to a separate
+location verbosely:
+
+		livss --debug export --mem -lsys util -a C:/MyProject/MySource/. C:/MyProject/LiVSs/.
+
+Well to save it, change the command to:
+
+        livss --debug --save MakeAll.ls export --mem -lsys util -a C:/MyProject/MySource/. C:/MyProject/LiVSs/.
+
+Then now you have a file 'MakeAll.ls' that can be re-run whenever you type:
+
+       livss script MakeAll.ls
